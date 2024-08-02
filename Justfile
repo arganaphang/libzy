@@ -4,6 +4,10 @@ format:
 	goimports-reviser -rm-unused -set-alias ./...
 	golines -w -m 120 *.go
 
+# compose-dev-up -> Spawn docker compose service for development purposes (just database yet)
+compose-dev-up:
+	docker-compose up postgres -d
+
 # build -> build application
 build:
 	go build -o main ./cmd
