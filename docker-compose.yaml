@@ -1,0 +1,20 @@
+version: "3"
+services:
+  postgres:
+    container_name: libzy_database
+    image: postgres:alpine
+    environment:
+      POSTGRES_DB: ${DATABASE_NAME}
+      POSTGRES_USER: ${DATABASE_USER}
+      POSTGRES_PASSWORD: ${DATABASE_PASS}
+    ports:
+      - 5432:5432
+  application:
+    container_name: libzy_application
+    build:
+      context: .
+      dockerfile: Dockerfile
+    depends_on:
+      - postgres
+    ports:
+      - 8000:8000

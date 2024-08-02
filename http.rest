@@ -1,0 +1,38 @@
+@host = http://localhost:8000
+### Books
+
+### Get All
+GET {{host}}/book?per_page=10
+
+### Get By ID
+@id = 35ecf7f4-8e52-4db4-bc94-ae7bf1f31e7d
+GET {{host}}/book/{{id}}
+
+### Add
+POST {{host}}/book
+Content-Type: application/json
+
+{
+  "title": "Bicara Itu Ada Seninya",
+  "overview": "Lorem Ipsum Dolor Sit Amet",
+  "image_url": "test",
+  "writer": "Oh Su Hyang",
+  "publisher": "Bhuana Ilmu Populer",
+  "published_at": 2018,
+  "category": "self-improvement"
+}
+
+### Update By ID
+@id = 35ecf7f4-8e52-4db4-bc94-ae7bf1f31e7d
+PUT {{host}}/book/{{id}}
+Content-Type: application/json
+
+{
+  "title": "Bicara Itu Ada Seninya",
+  "overview": "Lorem Ipsum Dolor Sit Amet",
+  "image_url": "test update",
+  "writer": "Oh Su Hyang",
+  "publisher": "Bhuana Ilmu Populer",
+  "published_at": 2018,
+  "category": "self-improvement"
+}

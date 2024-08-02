@@ -1,0 +1,2 @@
+- Minio Setup
+- Storage Management
