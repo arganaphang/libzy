@@ -22,12 +22,8 @@ health:
 
 # migrate-create -> create migration
 migrate-create NAME:
-	migrate create -ext sql -dir ./database/migrations -seq {{NAME}}
+	migrate create -ext sql -dir ./migrations -seq {{NAME}}
 
 # migrate-up -> up migration
 migrate-up:
-	migrate -path ./database/migrations -database "postgres://$DATABASE_USER:$DATABASE_PASS@$DATABASE_HOST:5432/$DATABASE_NAME?sslmode=disable" up
-
-# sqlc-gen -> Generate Model from sql migrations
-sqlc-gen:
-	sqlc generate
+	migrate -path ./migrations -database "postgres://$DATABASE_USER:$DATABASE_PASS@$DATABASE_HOST:5432/$DATABASE_NAME?sslmode=disable" up
