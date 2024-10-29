@@ -1,7 +1,6 @@
 package main
 
 import (
-	"fmt"
 	"log"
 	"net/http"
 	"os"
@@ -17,21 +16,10 @@ import (
 
 func main() {
 	app := fiber.New()
-	app.Get("/healthz", func(ctx *fiber.Ctx) error {
-		return ctx.Status(http.StatusOK).JSON(map[string]string{
-			"message": "OK",
-		})
-	})
 
 	db, err := sqlx.Open(
 		"postgres",
-		fmt.Sprintf(
-			"postgres://%s:%s@%s:5432/%s?sslmode=disable",
-			os.Getenv("DATABASE_USER"),
-			os.Getenv("DATABASE_PASS"),
-			os.Getenv("DATABASE_HOST"),
-			os.Getenv("DATABASE_NAME"),
-		),
+		os.Getenv("DATABASE_URL"),
 	)
 	if err != nil {
 		log.Fatalln("failed to open database connection", err.Error())
@@ -41,21 +29,23 @@ func main() {
 	}
 
 	repositories := repository.Repositories{
-		Book:    repository.NewBook(db),
-		User:    repository.NewUser(db),
-		History: repository.NewHistory(db),
+		Book: repository.NewBook(db),
 	}
 
 	services := service.Services{
 		Book: service.NewBook(repositories),
-		User: service.NewUser(repositories),
 	}
 
 	// Unused return handlers, just for grouping
 	_ = handler.Handlers{
 		Book: handler.NewBook(app, services),
-		User: handler.NewUser(app, services),
 	}
+
+	app.Get("/healthz", func(ctx *fiber.Ctx) error {
+		return ctx.Status(http.StatusOK).JSON(map[string]string{
+			"message": "OK",
+		})
+	})
 
 	app.Listen("0.0.0.0:8000")
 }

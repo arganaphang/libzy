@@ -30,4 +30,4 @@ migrate-create NAME:
 
 # migrate-up -> up migration
 migrate-up:
-	migrate -path ./migrations -database "postgres://$DATABASE_USER:$DATABASE_PASS@$DATABASE_HOST:5432/$DATABASE_NAME?sslmode=disable" up
+	migrate -path ./migrations -database "$DATABASE_URL" up
